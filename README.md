@@ -56,3 +56,12 @@ For hot-reload run the next command along side the backend
 ```
 npm run watch
 ```
+
+> !Important: For hot-reload to work properly; First run the frontend followed by the backend
+
+# Interfaces
+If everything runs correctly, the following links should be available
+- [Frontend](http://127.0.0.1:5000/)
+- [RapiDocs](http://127.0.0.1:5000/devs)
+- [Redocly](http://127.0.0.1:5000/devs)
+- [Swagger](http://127.0.0.1:5000/swagger-ui)
