@@ -77,3 +77,11 @@ DB_HOST=127.0.0.1
 DB_PORT=3888
 DB_SCHEMA=retro
 ```
+
+## Database
+In a terminal where `set FLASK_APP=webserver.py` has been activated run;
+```
+flask db migrate
+flask db upgrade
+```
+which applies the required database tables.

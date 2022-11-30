@@ -14,6 +14,9 @@ db = SQLAlchemy()
 
 from flask_migrate import Migrate  # noqa: E402
 
+from flask_bcrypt import Bcrypt  # noqa: E402
+bcrypt = Bcrypt()
+
 
 def init_app(app) -> None:
     """
@@ -22,6 +25,7 @@ def init_app(app) -> None:
     for extensions in (
         api,
         db,
+        bcrypt
     ):
         extensions.init_app(app)
     Migrate(app, db)

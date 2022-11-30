@@ -19,7 +19,7 @@ class Configuration(ModulesConfig):
     """The core of the webserver (backend) itself"""
     # - Webserver Configuration
     PROJECT_NAME = 'Retro'
-    SECRET_KEY = 'YYonvLmC6jD14j5batJFEHIGImrINFHkl57EGW2ZobKXV9UsiW0pY-h-evk9O0XKeV5BC3dl1Nqxojq80_V6p0fknha3WtXql8T0QBH2_T6POv_Tdj2FEJwYU_WVVLu8kEedEFgkXeijLSdyFOecq-HxcI11MCPW99khWEbY8pA'  # noqa: B950
+    SECRET_KEY = 'yW41SgK5mtrRVp4BY3-OC09saqRscx1G'
 
     # - Flask Smorest (API)
     API_TITLE = 'Retro-API'
@@ -43,7 +43,7 @@ class Configuration(ModulesConfig):
     DATABASE_TYPE = 'mysql'
     SQLALCHEMY_DATABASE_URI = connection_url
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-
+    
     # - Modules
     def __init__(self, *args, **kwargs) -> None:
         ModulesConfig.__init__(self)
