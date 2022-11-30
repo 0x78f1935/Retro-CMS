@@ -20,3 +20,4 @@ PyMySQL
 # Encryption
 Flask-Bcrypt
 cryptography
+PyJWT
