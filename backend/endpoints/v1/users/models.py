@@ -3,17 +3,23 @@
 Models: Users
 -------------
 """
+from flask import current_app
+from flask_smorest import abort
+from flask_login import UserMixin
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
+
 from cryptography.fernet import Fernet
-from flask import current_app
+from datetime import datetime, timedelta
 from base64 import b64encode
 from uuid import uuid4
+import jwt
 
 from backend.config import connection_url
 from backend.extensions import db, bcrypt
 from backend.utilities.base import BaseModel
+from backend.utilities.http import HTTPSchemas, HTTPStatus
 
 load_dotenv()
 engine = create_engine(connection_url, convert_unicode=True, echo=False)
@@ -21,7 +27,7 @@ Base = declarative_base()
 Base.metadata.reflect(engine)
 
 
-class UserModel(db.Model):
+class UserModel(db.Model, UserMixin):
     __table__ = Base.metadata.tables['users']
     
     authentication = db.relationship(
@@ -32,6 +38,54 @@ class UserModel(db.Model):
         uselist=False
     )
 
+    @classmethod
+    def decode_jwt(cls, request):
+        """Decodes content of bearer header present in request header.
+
+        Only works if the request in question requires to be authenticated
+
+        Args:
+            request (flask request): from flask import request
+
+        Returns:
+            dict: decoded format of the JWT token
+        """
+        access_token = request.headers.get('Authorization', '').split().pop(1)
+        try:
+            return jwt.decode(access_token, current_app.config['SECRET_KEY'], algorithms=["HS256"])
+        except jwt.InvalidSignatureError:
+            return abort(HTTPStatus.UNAUTHORIZED, **HTTPSchemas.Unauthorized().dump({
+                'message': 'Bearer: Signature verification failed.',
+                'errors': {
+                    'token': ['signature']
+                }
+            }))
+        except jwt.ExpiredSignatureError:
+            return abort(HTTPStatus.UNAUTHORIZED, **HTTPSchemas.Unauthorized().dump({
+                'message': 'Bearer: Expired token. Re-authentication required.',
+                'errors': {
+                    'token': ['expired']
+                }
+            }))
+        except (jwt.InvalidTokenError):
+            return abort(HTTPStatus.UNAUTHORIZED, **HTTPSchemas.Unauthorized().dump({
+                'message': 'Bearer: Invalid Token',
+                'errors': {
+                    'token': ['invalid']
+                }
+            }))
+
+    @property
+    def access_token(self):
+        return jwt.encode(
+            {
+                'sub': self.id,  # Issuer
+                'iat': datetime.utcnow(),  # JWT issue date
+                'exp': datetime.utcnow() + timedelta(minutes=int(current_app.config['JWT_EXPIRE_IN_MINUTES'])),
+            },
+            current_app.config['SECRET_KEY']
+        )
+
 
 class AuthenticationModel(db.Model, BaseModel):
     """Authentication model"""
@@ -41,6 +95,7 @@ class AuthenticationModel(db.Model, BaseModel):
     user = db.relationship('UserModel', back_populates='authentication')
     
     password = db.Column(db.Text, nullable=False)
+    scope = db.Column(db.Text, nullable=False, default='retro:guest')
 
     def __repr__(self):
         return f'<Authentication Model {self.id}: {self.user.username}>'
@@ -55,3 +110,8 @@ class AuthenticationModel(db.Model, BaseModel):
     
     def check_password(self, guess):
         return bcrypt.check_password_hash(self.__fer.decrypt(self.password.encode('utf8')).decode(), guess)
+
+    @property
+    def scopes(self):
+        """Return all available scopes"""
+        return self.scope.split(';')

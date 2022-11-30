@@ -7,6 +7,8 @@ Endpoints for users
 from flask import request, current_app
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_login import login_user
+from uuid import uuid4
 from sqlalchemy import or_
 
 blp = Blueprint('Users', 'Users', description='Users Endpoint', url_prefix='/api/v1/users')
@@ -84,7 +86,7 @@ class UsersView(MethodView):
             ).first()
 
         if user:
-            return abort(HTTPStatus.UNPROCESSABLE_ENTITY, **HTTPSchemas.NotFound().dump({
+            return abort(HTTPStatus.UNPROCESSABLE_ENTITY, **HTTPSchemas.UnprocessableEntry().dump({
                 'message': 'User already exists!',
                 'errors': {
                     'user': ['Cannot commit duplicate entity']
@@ -100,7 +102,9 @@ class UsersView(MethodView):
                 "account_created": 1,
                 "ip_register": request.remote_addr,
                 "ip_current": request.remote_addr,
-                "password": "UNKNOWN"
+                "password": "UNKNOWN",
+                "real_name": "Retro Guest",
+                "machine_id": f'{uuid4()}'
             }
         )
         db.session.add(user)
@@ -114,3 +118,30 @@ class UsersView(MethodView):
         user.password = "SET"
         auth.set_password(_pwd)
         return user, HTTPStatus.SUCCESS
+
+    @blp.route('/login', methods=['POST'])
+    @blp.arguments(parameters.UserAuthorizationParameters(), location='json')
+    @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
+    @blp.response(HTTPStatus.SUCCESS, schemas.BearerTokenSchema(many=False))
+    def authenticate_user(formdata, *args, **kwargs):
+        """
+        Authenticate User
+        """
+        user = models.UserModel.query.filter(models.UserModel.mail == formdata["mail"]).first()
+        if user is None:
+            return abort(HTTPStatus.NOT_FOUND, **HTTPSchemas.NotFound().dump({
+                'message': 'User not found!',
+                'errors': {
+                    'user': ['Not existing in the database']
+                }
+            })), HTTPStatus.NOT_FOUND
+        if user.authentication.check_password(formdata['password']):
+            login_user(user)
+            return user, HTTPStatus.SUCCESS
+
+        return abort(HTTPStatus.UNAUTHORIZED, **HTTPSchemas.Unauthorized().dump({
+                'message': 'Invalid Credentials!',
+                'errors': {
+                    'user': ['Invalid Credentials']
+                }
+            })), HTTPStatus.UNAUTHORIZED

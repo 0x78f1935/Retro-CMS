@@ -17,6 +17,10 @@ flask-sqlalchemy
 flask_migrate
 PyMySQL
 
-# Encryption
+# - Encryption
 Flask-Bcrypt
 cryptography
+PyJWT
+
+# - Authentication
+Flask-Login
