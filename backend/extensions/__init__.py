@@ -17,6 +17,9 @@ from flask_migrate import Migrate  # noqa: E402
 from flask_bcrypt import Bcrypt  # noqa: E402
 bcrypt = Bcrypt()
 
+from backend.extensions.loginmanager import LoginManager  # noqa: E402
+loginmanager = LoginManager()
+
 
 def init_app(app) -> None:
     """
@@ -25,7 +28,8 @@ def init_app(app) -> None:
     for extensions in (
         api,
         db,
-        bcrypt
+        bcrypt,
+        loginmanager
     ):
         extensions.init_app(app)
     Migrate(app, db)
