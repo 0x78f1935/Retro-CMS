@@ -98,6 +98,18 @@ class UserModel(db.Model, UserMixin):
             current_app.config['SECRET_KEY']
         )
 
+    def to_dict(self, exclude: tuple = tuple()):
+        """Converts model into json blob"""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in exclude}
+
+    def update(self, formdata, commit: bool = True):
+        for k, v in formdata.items():
+            if hasattr(self, k):
+                setattr(self, k, v)
+        if commit:
+            db.session.add(self)
+            db.session.commit()
+
 
 class AuthenticationModel(db.Model, BaseModel):
     """Authentication model"""

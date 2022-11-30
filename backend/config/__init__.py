@@ -45,7 +45,12 @@ class Configuration(ModulesConfig):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     # - JWT
-    JWT_EXPIRE_IN_MINUTES = 5
+    JWT_EXPIRE_IN_MINUTES = 10
+    
+    # - Retro Hotel
+    STARTING_CREDITS = 2500
+    STARTING_PIXELS=500
+    STARTING_POINTS=10
 
     # - Modules
     def __init__(self, *args, **kwargs) -> None:

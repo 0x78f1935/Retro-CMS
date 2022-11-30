@@ -7,7 +7,7 @@ Endpoints for users
 from flask import request, current_app
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from uuid import uuid4
 from sqlalchemy import or_
 
@@ -47,6 +47,8 @@ class UsersView(MethodView):
     def all_users(*args, **kwargs):
         """
         Obtain all users
+        
+        Fetch a overview of all available users.
         """
         return models.UserModel.query.all(), HTTPStatus.SUCCESS
 
@@ -78,6 +80,9 @@ class UsersView(MethodView):
     def register_user(formdata, *args, **kwargs):
         """
         Register new user
+        
+        A new user will be created with the provided data.
+        After this endpoint has been executed, the user should be able to authenticate with `api/v1/users/login`
         """
         user = models.UserModel.query.filter(
             or_(
@@ -104,7 +109,10 @@ class UsersView(MethodView):
                 "ip_current": request.remote_addr,
                 "password": "UNKNOWN",
                 "real_name": "Retro Guest",
-                "machine_id": f'{uuid4()}'
+                "machine_id": f'{uuid4()}',
+                "credits": current_app.config["STARTING_CREDITS"],
+                "pixels": current_app.config["STARTING_PIXELS"],
+                "points": current_app.config["STARTING_POINTS"],
             }
         )
         db.session.add(user)
@@ -126,6 +134,11 @@ class UsersView(MethodView):
     def authenticate_user(formdata, *args, **kwargs):
         """
         Authenticate User
+        
+        Authenticate user with provided user credentials, after successful authentication
+        a new SSO ticket will be generated. Returns bearer token.
+        
+        > No bearer token required
         """
         user = models.UserModel.query.filter(models.UserModel.mail == formdata["mail"]).first()
         if user is None:
@@ -153,6 +166,11 @@ class UsersView(MethodView):
     def logout_user(*args, **kwargs):
         """
         Logout user
+        
+        Logs the current logged in user out.
+        Also resets SSO Ticket
+        
+        > No bearer token required
         """
         if not current_user.is_authenticated:
             return abort(HTTPStatus.FORBIDDEN, **HTTPSchemas.Forbidden().dump({
@@ -164,3 +182,47 @@ class UsersView(MethodView):
         current_user.generate_sso_ticket()
         logout_user()
         return {'status': 'success'}, HTTPStatus.SUCCESS
+
+    @blp.route('/me', methods=['PATCH'])
+    @blp.arguments(parameters.UpdateMeParameters(), location='json')
+    @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
+    @blp.response(
+        HTTPStatus.SUCCESS, schemas.UsersSchema(
+            many=False,
+            exclude=(
+                "account_created",
+                "account_day_of_birth",
+                "auth_ticket",
+                "extra_rank",
+                "ip_current",
+                "ip_register",
+                "last_online",
+                "machine_id",
+                "mail",
+                "password",
+                "pincode",
+                "rank",
+                "real_name",
+                "secret_key",
+                "template",
+            )
+        )
+    )
+    @login_required
+    def patch_me(formdata, *args, **kwargs):
+        """
+        Update Me
+        
+        This endpoint allows the logged in user to update his/her account.
+        Before a user can use this endpoint, that user is required to have
+        logged in before with `api/v1/users/login` after which this endpoint works.
+        
+        > No bearer token required
+        """
+        if 'password' in formdata.keys():
+            _pwd = formdata['password']
+            del formdata['password']
+            current_user.authentication.set_password(_pwd)
+        
+        current_user.update(formdata)
+        return current_user, HTTPStatus.SUCCESS
