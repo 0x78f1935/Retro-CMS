@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 from os import getenv
 
 load_dotenv()
+connection_url = f'mysql+pymysql://{getenv("DB_USERNAME", "root")}:{getenv("DB_PASSWORD", "SuperSecretPass123")}@{getenv("DB_HOST", "127.0.0.1")}:{getenv("DB_PORT", "3888")}/{getenv("DB_SCHEMA", "retro")}'
+
 
 
 class Configuration(ModulesConfig):
@@ -39,7 +41,7 @@ class Configuration(ModulesConfig):
 
     # - Database
     DATABASE_TYPE = 'mysql'
-    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{getenv("DB_USERNAME", "root")}:{getenv("DB_PASSWORD", "SuperSecretPass123")}@{getenv("DB_HOST", "127.0.0.1")}:{getenv("DB_PORT", "3888")}/{getenv("DB_SCHEMA", "retro")}'
+    SQLALCHEMY_DATABASE_URI = connection_url
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     # - Modules

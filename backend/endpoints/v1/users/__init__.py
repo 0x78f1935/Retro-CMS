@@ -16,9 +16,31 @@ from backend.utilities.http import HTTPSchemas, HTTPStatus
 
 class UsersView(MethodView):
     @blp.route('/', methods=['GET'])
-    @blp.response(HTTPStatus.SUCCESS, HTTPSchemas.Success())
+    @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
+    @blp.response(
+        HTTPStatus.SUCCESS, schemas.UsersSchema(
+            many=True,
+            exclude=(
+                "account_created",
+                "account_day_of_birth",
+                "auth_ticket",
+                "extra_rank",
+                "ip_current",
+                "ip_register",
+                "last_online",
+                "machine_id",
+                "mail",
+                "password",
+                "pincode",
+                "rank",
+                "real_name",
+                "secret_key",
+                "template",
+            )
+        )
+    )
     def all_users(*args, **kwargs):
         """
         Obtain all users
         """
-        return {}, HTTPStatus.SUCCESS
+        return models.UserModel.query.all(), HTTPStatus.SUCCESS
