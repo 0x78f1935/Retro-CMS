@@ -7,6 +7,9 @@ flask-marshmallow
 marshmallow-sqlalchemy
 git+https://github.com/marshmallow-code/flask-smorest.git
 
+# - Flaking
+flake8
+flake8-bugbear
 
 # - Database
 flask-sqlalchemy
