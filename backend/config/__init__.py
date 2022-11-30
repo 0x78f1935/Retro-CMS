@@ -43,7 +43,10 @@ class Configuration(ModulesConfig):
     DATABASE_TYPE = 'mysql'
     SQLALCHEMY_DATABASE_URI = connection_url
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    
+
+    # - JWT
+    JWT_EXPIRE_IN_MINUTES = 30
+
     # - Modules
     def __init__(self, *args, **kwargs) -> None:
         ModulesConfig.__init__(self)
