@@ -5,6 +5,7 @@ Models: Users
 """
 from flask import current_app
 from flask_smorest import abort
+from flask_login import UserMixin
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
@@ -26,7 +27,7 @@ Base = declarative_base()
 Base.metadata.reflect(engine)
 
 
-class UserModel(db.Model):
+class UserModel(db.Model, UserMixin):
     __table__ = Base.metadata.tables['users']
     
     authentication = db.relationship(
