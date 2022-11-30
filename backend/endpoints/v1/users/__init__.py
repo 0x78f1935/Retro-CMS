@@ -7,7 +7,7 @@ Endpoints for users
 from flask import request, current_app
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_login import login_user
+from flask_login import login_user, logout_user, current_user
 from uuid import uuid4
 from sqlalchemy import or_
 
@@ -146,3 +146,21 @@ class UsersView(MethodView):
                     'user': ['Invalid Credentials']
                 }
             })), HTTPStatus.UNAUTHORIZED
+
+    @blp.route('/logout', methods=['GET'])
+    @blp.response(HTTPStatus.FORBIDDEN, HTTPSchemas.Forbidden())
+    @blp.response(HTTPStatus.SUCCESS, HTTPSchemas.Success())
+    def logout_user(*args, **kwargs):
+        """
+        Logout user
+        """
+        if not current_user.is_authenticated:
+            return abort(HTTPStatus.FORBIDDEN, **HTTPSchemas.Forbidden().dump({
+                'message': 'No one to logout!',
+                'errors': {
+                    'user': ['Already anonymous']
+                }
+            })), HTTPStatus.FORBIDDEN
+        current_user.generate_sso_ticket()
+        logout_user()
+        return {'status': 'success'}, HTTPStatus.SUCCESS
