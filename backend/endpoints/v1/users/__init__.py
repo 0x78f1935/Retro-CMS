@@ -7,6 +7,7 @@ Endpoints for users
 from flask import request, current_app
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_login import login_user
 from uuid import uuid4
 from sqlalchemy import or_
 
@@ -102,7 +103,7 @@ class UsersView(MethodView):
                 "ip_register": request.remote_addr,
                 "ip_current": request.remote_addr,
                 "password": "UNKNOWN",
-                "real_name": "Tourist",
+                "real_name": "Retro Guest",
                 "machine_id": f'{uuid4()}'
             }
         )
@@ -135,6 +136,7 @@ class UsersView(MethodView):
                 }
             })), HTTPStatus.NOT_FOUND
         if user.authentication.check_password(formdata['password']):
+            login_user(user)
             return user, HTTPStatus.SUCCESS
 
         return abort(HTTPStatus.UNAUTHORIZED, **HTTPSchemas.Unauthorized().dump({
