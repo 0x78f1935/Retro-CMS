@@ -14,3 +14,11 @@ class UserRegistrationParameters(ParameterBaseModel, UsersSchema):
     class Meta:
         ordered = True
         fields = ('username', 'password', 'mail',)
+
+class UserAuthorizationParameters(ParameterBaseModel, UsersSchema):
+    """
+    Schema which represents input details when authorizing a new user
+    """
+    class Meta:
+        ordered = True
+        fields = ('mail', 'password',)

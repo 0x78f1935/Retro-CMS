@@ -84,7 +84,7 @@ class UsersView(MethodView):
             ).first()
 
         if user:
-            return abort(HTTPStatus.UNPROCESSABLE_ENTITY, **HTTPSchemas.NotFound().dump({
+            return abort(HTTPStatus.UNPROCESSABLE_ENTITY, **HTTPSchemas.UnprocessableEntry().dump({
                 'message': 'User already exists!',
                 'errors': {
                     'user': ['Cannot commit duplicate entity']
@@ -114,3 +114,29 @@ class UsersView(MethodView):
         user.password = "SET"
         auth.set_password(_pwd)
         return user, HTTPStatus.SUCCESS
+
+    @blp.route('/login', methods=['POST'])
+    @blp.arguments(parameters.UserAuthorizationParameters(), location='json')
+    @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
+    @blp.response(HTTPStatus.SUCCESS, schemas.BearerTokenSchema(many=False))
+    def authenticate_user(formdata, *args, **kwargs):
+        """
+        Authenticate User
+        """
+        user = models.UserModel.query.filter(models.UserModel.mail == formdata["mail"]).first()
+        if user is None:
+            return abort(HTTPStatus.NOT_FOUND, **HTTPSchemas.NotFound().dump({
+                'message': 'User not found!',
+                'errors': {
+                    'user': ['Not existing in the database']
+                }
+            })), HTTPStatus.NOT_FOUND
+        if user.authentication.check_password(formdata['password']):
+            return user, HTTPStatus.SUCCESS
+
+        return abort(HTTPStatus.UNAUTHORIZED, **HTTPSchemas.Unauthorized().dump({
+                'message': 'Invalid Credentials!',
+                'errors': {
+                    'user': ['Invalid Credentials']
+                }
+            })), HTTPStatus.UNAUTHORIZED
