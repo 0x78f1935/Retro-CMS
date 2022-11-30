@@ -94,6 +94,7 @@ class AuthenticationModel(db.Model, BaseModel):
     user = db.relationship('UserModel', back_populates='authentication')
     
     password = db.Column(db.Text, nullable=False)
+    scope = db.Column(db.Text, nullable=False, default='retro:guest')
 
     def __repr__(self):
         return f'<Authentication Model {self.id}: {self.user.username}>'
@@ -108,3 +109,8 @@ class AuthenticationModel(db.Model, BaseModel):
     
     def check_password(self, guess):
         return bcrypt.check_password_hash(self.__fer.decrypt(self.password.encode('utf8')).decode(), guess)
+
+    @property
+    def scopes(self):
+        """Return all available scopes"""
+        return self.scope.split(';')
