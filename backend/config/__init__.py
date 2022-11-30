@@ -45,7 +45,7 @@ class Configuration(ModulesConfig):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     # - JWT
-    JWT_EXPIRE_IN_MINUTES = 30
+    JWT_EXPIRE_IN_MINUTES = 5
 
     # - Modules
     def __init__(self, *args, **kwargs) -> None:
