@@ -16,3 +16,7 @@ flake8-bugbear
 flask-sqlalchemy
 flask_migrate
 PyMySQL
+
+# Encryption
+Flask-Bcrypt
+cryptography

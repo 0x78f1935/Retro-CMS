@@ -9,9 +9,10 @@ from dotenv import load_dotenv
 from cryptography.fernet import Fernet
 from flask import current_app
 from base64 import b64encode
+from uuid import uuid4
 
 from backend.config import connection_url
-from backend.extensions import db
+from backend.extensions import db, bcrypt
 from backend.utilities.base import BaseModel
 
 load_dotenv()
@@ -46,10 +47,11 @@ class AuthenticationModel(db.Model, BaseModel):
 
     @property
     def __fer(self):
-        return Fernet(b64encode(current_app.config['SECRET_KEY'].encode('utf8')).decode())
+        return Fernet(b64encode(f'{self.user.id}{self.user.ip_register}{self.user.mail}{uuid4()}'[:32].encode('utf8')).decode())
 
     def set_password(self, pwd):
-        self.password = self.__fer.encrypt(pwd.encode('utf8'))
+        self.password = self.__fer.encrypt(bcrypt.generate_password_hash(pwd.encode('utf8')))
+        db.session.commit()
     
     def check_password(self, guess):
-        return guess == self.__fer.decrypt(self.password.encode('utf8')).decode()
+        return bcrypt.check_password_hash(self.__fer.decrypt(self.password.encode('utf8')).decode(), guess)

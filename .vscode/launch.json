@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "RUN: Webserver",
+            "name": "RUN: Flask",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -15,8 +15,8 @@
             },
             "args": [
                 "run",
-                "--no-debugger",
-                "--no-reload"
+                // "--no-debugger",
+                // "--no-reload"
             ],
             "jinja": true,
             "justMyCode": true
