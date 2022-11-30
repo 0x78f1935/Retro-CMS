@@ -136,6 +136,7 @@ class UsersView(MethodView):
                 }
             })), HTTPStatus.NOT_FOUND
         if user.authentication.check_password(formdata['password']):
+            user.generate_sso_ticket()
             login_user(user)
             return user, HTTPStatus.SUCCESS
 

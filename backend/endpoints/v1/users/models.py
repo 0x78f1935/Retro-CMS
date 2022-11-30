@@ -14,6 +14,7 @@ from cryptography.fernet import Fernet
 from datetime import datetime, timedelta
 from base64 import b64encode
 from uuid import uuid4
+from secrets import token_urlsafe
 import jwt
 
 from backend.config import connection_url
@@ -37,6 +38,17 @@ class UserModel(db.Model, UserMixin):
         passive_deletes=True,
         uselist=False
     )
+    
+    def generate_sso_ticket(self) -> str:
+        """
+        Generates SSO ticket
+
+        Returns:
+            str: SSO ticket
+        """
+        self.auth_ticket = token_urlsafe(32)
+        db.session.commit()
+        return self.auth_ticket
 
     @classmethod
     def decode_jwt(cls, request):
