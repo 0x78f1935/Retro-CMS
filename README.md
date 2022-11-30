@@ -65,3 +65,23 @@ If everything runs correctly, the following links should be available
 - [RapiDocs](http://127.0.0.1:5000/devs)
 - [Redocly](http://127.0.0.1:5000/devs)
 - [Swagger](http://127.0.0.1:5000/swagger-ui)
+
+
+## Environment
+For this to work correctly, you are required to make a `.env` file in the root of this repository.
+You can use the following `.env` file as example:
+```
+DB_USERNAME=root
+DB_PASSWORD=SuperSecretPass123
+DB_HOST=127.0.0.1
+DB_PORT=3888
+DB_SCHEMA=retro
+```
+
+## Database
+In a terminal where `set FLASK_APP=webserver.py` has been activated run;
+```
+flask db migrate
+flask db upgrade
+```
+which applies the required database tables.
