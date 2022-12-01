@@ -20,3 +20,8 @@ class UsersSchema(SQLAlchemyAutoSchema):
 
 class BearerTokenSchema(Schema):
     access_token = base_fields.String(required=True, description="Authorization token which allows request to the backend")
+
+
+class SSOTokenSchema(UsersSchema):
+    class Meta(UsersSchema.Meta):
+        fields = ('auth_ticket',)
