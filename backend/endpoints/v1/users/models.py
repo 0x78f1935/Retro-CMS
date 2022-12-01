@@ -126,7 +126,7 @@ class AuthenticationModel(db.Model, BaseModel):
 
     @property
     def __fer(self):
-        return Fernet(b64encode(f'{self.user.id}{self.user.ip_register}{self.user.mail}{uuid4()}'[:32].encode('utf8')).decode())
+        return Fernet(b64encode(f'{self.user.id}{self.user.ip_register}{self.user.mail}{self.user.machine_id}'[:32].encode('utf8')).decode())
 
     def set_password(self, pwd):
         self.password = self.__fer.encrypt(bcrypt.generate_password_hash(pwd.encode('utf8')))
