@@ -117,6 +117,7 @@ class AuthenticationModel(db.Model, BaseModel):
 
     user_id = db.Column(db.Integer, db.ForeignKey(UserModel.id, ondelete='CASCADE'), nullable=False)
     user = db.relationship('UserModel', back_populates='authentication')
+    enc_id = db.Column(db.Text, nullable=False, default=f'{uuid4()}')
     
     password = db.Column(db.Text, nullable=False)
     scope = db.Column(db.Text, nullable=False, default='retro:guest')
@@ -126,7 +127,7 @@ class AuthenticationModel(db.Model, BaseModel):
 
     @property
     def __fer(self):
-        return Fernet(b64encode(f'{self.user.id}{self.user.ip_register}{self.user.mail}{self.user.machine_id}'[:32].encode('utf8')).decode())
+        return Fernet(b64encode(f'{self.user.id}{self.user.ip_register}{self.user.mail}{self.user.authentication.enc_id}'[:32].encode('utf8')).decode())
 
     def set_password(self, pwd):
         self.password = self.__fer.encrypt(bcrypt.generate_password_hash(pwd.encode('utf8')))

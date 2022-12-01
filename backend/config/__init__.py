@@ -51,6 +51,9 @@ class Configuration(ModulesConfig):
     STARTING_CREDITS = 2500
     STARTING_PIXELS=500
     STARTING_POINTS=10
+    
+    # - Emulator
+    EMULATOR_HOST = getenv("EMULATOR_HOST", "http://127.0.0.1:81")
 
     # - Modules
     def __init__(self, *args, **kwargs) -> None:

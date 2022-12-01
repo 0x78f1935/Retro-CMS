@@ -226,3 +226,20 @@ class UsersView(MethodView):
         
         current_user.update(formdata)
         return current_user, HTTPStatus.SUCCESS
+
+
+    @blp.route('/sso', methods=['GET'])
+    @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
+    @blp.response(HTTPStatus.SUCCESS, schemas.SSOTokenSchema())
+    @login_required
+    def ticket(*args, **kwargs):
+        """
+        SSO Ticket
+        
+        Returns SSO ticket of logged in user.
+        
+        > No bearer token required
+        """       
+        return {
+            'auth_ticket': f'{current_app.config["EMULATOR_HOST"]}?sso={current_user.auth_ticket}'
+        }, HTTPStatus.SUCCESS
