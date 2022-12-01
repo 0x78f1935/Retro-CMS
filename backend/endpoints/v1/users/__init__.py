@@ -37,7 +37,6 @@ class UsersView(MethodView):
                 "mail",
                 "password",
                 "pincode",
-                "rank",
                 "real_name",
                 "secret_key",
                 "template",
@@ -121,6 +120,8 @@ class UsersView(MethodView):
             'user_id': user.id,
             'password': current_app.config['SECRET_KEY']
         })
+        if models.AuthenticationModel.query.count() == 0:
+            auth.scope = "retro:guest;retro:admin;retro:owner"
         db.session.add(auth)
         db.session.commit()
         user.password = "SET"
@@ -201,7 +202,6 @@ class UsersView(MethodView):
                 "mail",
                 "password",
                 "pincode",
-                "rank",
                 "real_name",
                 "secret_key",
                 "template",
