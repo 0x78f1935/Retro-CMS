@@ -37,7 +37,6 @@ class UsersView(MethodView):
                 "mail",
                 "password",
                 "pincode",
-                "rank",
                 "real_name",
                 "secret_key",
                 "template",
@@ -121,6 +120,8 @@ class UsersView(MethodView):
             'user_id': user.id,
             'password': current_app.config['SECRET_KEY']
         })
+        if models.AuthenticationModel.query.count() == 0:
+            auth.scope = "retro:guest;retro:admin;retro:owner"
         db.session.add(auth)
         db.session.commit()
         user.password = "SET"
@@ -201,7 +202,6 @@ class UsersView(MethodView):
                 "mail",
                 "password",
                 "pincode",
-                "rank",
                 "real_name",
                 "secret_key",
                 "template",
@@ -226,3 +226,20 @@ class UsersView(MethodView):
         
         current_user.update(formdata)
         return current_user, HTTPStatus.SUCCESS
+
+
+    @blp.route('/sso', methods=['GET'])
+    @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
+    @blp.response(HTTPStatus.SUCCESS, schemas.SSOTokenSchema())
+    @login_required
+    def ticket(*args, **kwargs):
+        """
+        SSO Ticket
+        
+        Returns SSO ticket of logged in user.
+        
+        > No bearer token required
+        """       
+        return {
+            'auth_ticket': f'{current_app.config["EMULATOR_HOST"]}?sso={current_user.auth_ticket}'
+        }, HTTPStatus.SUCCESS
