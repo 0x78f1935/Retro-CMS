@@ -81,6 +81,10 @@ EMULATOR_HOST=http://127.0.0.1:81
 ```
 
 ## Database
+> ***WARNING: IN THE CURRENT STATUE OF THIS APPLICATION, DO NOT USE THIS ON AN EXISTING DATABASE, ONLY FRESH RETROS***
+
+Passwords are encrypted with this CMS, existing passwords will be overwritten and users will lose access to their account. Wait until migration tooling exist or start a fresh retro.
+
 In a terminal where `set FLASK_APP=webserver.py` has been activated run;
 ```
 flask db upgrade
