@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 const state = {
   access_token: null,
+  sso_ticket: null,
   account: {
     email: "",
     username: "",
@@ -17,6 +18,7 @@ const state = {
 
 const getters = {
   access_token: (state) => state.access_token,
+  sso_ticket: (state) => state.sso_ticket,
   account: (state) => state.account,
   profile: (state) => state.profile,
   scopes: (state) => state.scopes,
@@ -33,6 +35,7 @@ const actions = {
 const mutations = {
   resetUserState(state) {
     state.access_token = null;
+    state.sso_ticket = null;
     state.account = {
       email: "",
       username: "",
@@ -44,6 +47,9 @@ const mutations = {
   },
   setAccessToken(state, value) {
     state.access_token = value;
+  },
+  setSSOTicket(state, value) {
+    state.sso_ticket = value;
   },
   setEmail(state, value) {
     state.account.email = value;

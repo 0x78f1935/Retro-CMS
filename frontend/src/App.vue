@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-if="$store.getters.access_token">
-      <!-- -->
-    </v-navigation-drawer>
+    <!-- <v-navigation-drawer app v-if="$store.getters.access_token"> -->
+    <!-- -->
+    <!-- </v-navigation-drawer> -->
 
     <v-app-bar app v-if="$store.getters.access_token">
       <!-- -->

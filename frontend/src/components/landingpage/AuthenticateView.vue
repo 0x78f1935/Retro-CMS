@@ -36,6 +36,11 @@
                 <v-spacer></v-spacer>
                 <v-btn color="accent" @click="login()">Check In</v-btn>
               </v-card-actions>
+              <v-card-text class="red darken-2 text-center" v-if="message">
+                <span class="white--text"
+                  ><strong>{{ message }}</strong></span
+                >
+              </v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -75,6 +80,7 @@ export default {
           })
           .then((response) => {
             if (response.status == 200) {
+              this.$store.commit("setEmail", this.$data.collection.email);
               this.$store.commit("setAccessToken", response.data.access_token);
               return;
             }
