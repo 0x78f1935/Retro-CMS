@@ -31,40 +31,5 @@ def upgrade():
 
 
 def downgrade():
-    op.create_table('users',
-    sa.Column('id', mysql.INTEGER(display_width=11), autoincrement=True, nullable=False),
-    sa.Column('username', mysql.VARCHAR(length=25), nullable=False),
-    sa.Column('real_name', mysql.VARCHAR(length=25), server_default=sa.text("'KREWS DEV'"), nullable=False),
-    sa.Column('password', mysql.VARCHAR(length=64), nullable=False),
-    sa.Column('mail', mysql.VARCHAR(length=500), nullable=True),
-    sa.Column('mail_verified', mysql.ENUM('0', '1'), server_default=sa.text("'0'"), nullable=False),
-    sa.Column('account_created', mysql.INTEGER(display_width=11), autoincrement=False, nullable=False),
-    sa.Column('account_day_of_birth', mysql.INTEGER(display_width=11), server_default=sa.text('0'), autoincrement=False, nullable=False),
-    sa.Column('last_login', mysql.INTEGER(display_width=11), server_default=sa.text('0'), autoincrement=False, nullable=False),
-    sa.Column('last_online', mysql.INTEGER(display_width=11), server_default=sa.text('0'), autoincrement=False, nullable=False),
-    sa.Column('motto', mysql.VARCHAR(length=127), server_default=sa.text("''"), nullable=False),
-    sa.Column('look', mysql.VARCHAR(length=256), server_default=sa.text("'hr-115-42.hd-195-19.ch-3030-82.lg-275-1408.fa-1201.ca-1804-64'"), nullable=False),
-    sa.Column('gender', mysql.ENUM('M', 'F'), server_default=sa.text("'M'"), nullable=False),
-    sa.Column('rank', mysql.INTEGER(display_width=11), server_default=sa.text('1'), autoincrement=False, nullable=False),
-    sa.Column('credits', mysql.INTEGER(display_width=11), server_default=sa.text('2500'), autoincrement=False, nullable=False),
-    sa.Column('pixels', mysql.INTEGER(display_width=11), server_default=sa.text('500'), autoincrement=False, nullable=False),
-    sa.Column('points', mysql.INTEGER(display_width=11), server_default=sa.text('10'), autoincrement=False, nullable=False),
-    sa.Column('online', mysql.ENUM('0', '1', '2'), server_default=sa.text("'0'"), nullable=False),
-    sa.Column('auth_ticket', mysql.VARCHAR(charset='latin1', collation='latin1_swedish_ci', length=256), server_default=sa.text("''"), nullable=False),
-    sa.Column('ip_register', mysql.VARCHAR(length=45), nullable=False),
-    sa.Column('ip_current', mysql.VARCHAR(length=45), nullable=False, comment="Have your CMS update this IP. If you do not do this IP banning won't work!"),
-    sa.Column('machine_id', mysql.VARCHAR(length=64), server_default=sa.text("''"), nullable=False),
-    sa.Column('home_room', mysql.INTEGER(display_width=11), server_default=sa.text('0'), autoincrement=False, nullable=False),
-    sa.Column('secret_key', mysql.VARCHAR(length=40), nullable=True),
-    sa.Column('pincode', mysql.VARCHAR(length=11), nullable=True),
-    sa.Column('extra_rank', mysql.INTEGER(display_width=11), autoincrement=False, nullable=True),
-    sa.Column('template', mysql.ENUM('light', 'dark'), server_default=sa.text("'dark'"), nullable=True),
-    sa.Column('lang', mysql.VARCHAR(length=2), server_default=sa.text("'en'"), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    mysql_collate='utf8mb3_general_ci',
-    mysql_default_charset='utf8mb3',
-    mysql_engine='InnoDB',
-    mysql_row_format='DYNAMIC'
-    )
     op.drop_table('cms_authentication')
     # ### end Alembic commands ###
