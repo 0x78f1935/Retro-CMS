@@ -1,5 +1,5 @@
 # Retro-CMS
-OpenSource CMS
+OpenSource CMS, a simplistic retro CMS, aimed for the Retro community free of charge. Check out the [roadmap](https://github.com/users/0x78f1935/projects/1)!
 
 ## Development environment
 First clone the repository. Once cloned we have to prepare two environments.
