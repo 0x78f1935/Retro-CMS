@@ -46,7 +46,7 @@ class UserModel(db.Model, UserMixin):
         Returns:
             str: SSO ticket
         """
-        self.auth_ticket = token_urlsafe(32)
+        self.auth_ticket = token_urlsafe(256)
         db.session.commit()
         return self.auth_ticket
 
