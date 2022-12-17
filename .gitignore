@@ -304,6 +304,7 @@ backend/static/frontend/CMS
 backend/templates/frontend/CMS
 
 migrations
+docker/volumes
 
 backend/static/badges
 backend/static/clothes
