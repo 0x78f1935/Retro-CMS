@@ -251,7 +251,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+!.env
 .venv
 env/
 venv/
@@ -290,5 +290,28 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-backend/static/frontend
-backend/templates/frontend
+nginx/logging
+backups
+backend/arcturus_models
+_migrations
+yarn.lock
+
+
+!backend/static/frontend/NITRO
+backend/static/frontend/CMS
+
+!backend/templates/frontend/NITRO
+backend/templates/frontend/CMS
+
+migrations
+
+backend/static/badges
+backend/static/clothes
+backend/static/Custom_clothes
+backend/static/effect
+backend/static/files
+backend/static/hot_furni
+backend/static/icons
+backend/static/mp3
+backend/static/quests
+backend/static/reception
