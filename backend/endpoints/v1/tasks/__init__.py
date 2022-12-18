@@ -22,7 +22,7 @@ class SystemTasksView(MethodView):
     @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
     @blp.response(HTTPStatus.SUCCESS, SystemTaskSerializer(many=True))
     @loginmanager.auth_jwt.Required(scope=['retro:admin', 'retro:owner'], operator='OR')
-    def available_tasks(*args, **kwargs):
+    def available_tasks(user, *args, **kwargs):
         """
         System Tasks
         
@@ -37,7 +37,7 @@ class SystemTasksView(MethodView):
     @blp.response(HTTPStatus.NOT_FOUND, HTTPSchemas.NotFound())
     @blp.response(HTTPStatus.SUCCESS, serializer.SystemTaskResponseSerializer(many=False))
     @loginmanager.auth_jwt.Required(scope=['retro:admin', 'retro:owner'], operator='OR')
-    def execute_task(payload, *args, **kwargs):
+    def execute_task(user, payload, *args, **kwargs):
         """
         Execute Task
         

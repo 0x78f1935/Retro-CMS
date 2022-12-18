@@ -19,6 +19,7 @@ class Configuration(ModulesConfig, TasksConfig):
     """The core of the webserver (backend) itself"""
     # - Webserver Configuration
     PROJECT_NAME = getenv("HOTEL_NAME_LONG", "Retro Hotel")
+    PROJECT_NAME_SHORT = getenv("HOTEL_NAME_SHORT", "Retro")
     SECRET_KEY = getenv("SECRET_KEY", "NotSoSecretKey")
     DEBUG = True if str(getenv("DEBUG", False)).upper() == 'TRUE' else False
     if DEBUG:
