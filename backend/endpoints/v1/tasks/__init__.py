@@ -33,7 +33,7 @@ class SystemTasksView(MethodView):
     @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
     @blp.response(HTTPStatus.FORBIDDEN, HTTPSchemas.Forbidden())
     @blp.response(HTTPStatus.NOT_FOUND, HTTPSchemas.NotFound())
-    @blp.response(HTTPStatus.SUCCESS, serializer.SystemTaskSerializer(many=False))
+    @blp.response(HTTPStatus.SUCCESS, serializer.SystemTaskResponseSerializer(many=False))
     def execute_task(payload, *args, **kwargs):
         """
         Execute Task
