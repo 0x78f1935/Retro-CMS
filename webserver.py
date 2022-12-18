@@ -19,7 +19,7 @@ def create_subprocesses(server: Webserver) -> None:
     Attach background tasks to the webserver
     """
     for TASK in server.config["ENABLED_TASKS"]:
-        setattr(server.config, f'TASK_{TASK[0]}', BackgroundThreadFactory.create(TASK[1]))
+        setattr(server.config, f'TASK_{TASK[0]}', BackgroundThreadFactory.create(server, TASK[1]))
         _task = getattr(server.config, f'TASK_{TASK[0]}')
         # this condition is needed to prevent creating duplicated thread in Flask debug mode
         if server.config["RUN_LISTENERS"]:

@@ -10,9 +10,9 @@ from backend.tasks.downloader import DownloadThread
 
 class BackgroundThreadFactory:
     @staticmethod
-    def create(thread_type: str):
+    def create(app, thread_type: str):
         if thread_type == 'downloader':
-            return DownloadThread()
+            return DownloadThread(app)
 
         # if thread_type == 'some_other_type':
         #     return SomeOtherThread()

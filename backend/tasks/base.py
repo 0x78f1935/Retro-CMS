@@ -12,8 +12,9 @@ import threading
 
 
 class BackgroundThread(threading.Thread, ABC):
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
+        self.app = app
         self._stop_event = threading.Event()
 
     def stop(self) -> None:

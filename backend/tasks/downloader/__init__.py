@@ -45,9 +45,10 @@ class DownloadThread(BackgroundThread):
         Handle downloader if task has been queued, otherwise listen for queue
         """
         try:
-            QUEUE_DOWNLOADER.get(block=False)
+            task_id = QUEUE_DOWNLOADER.get(block=False)
             print(f'* Assets are getting downloaded!.')
-            import_module('backend.tasks.downloader.tmp.wrapper').DownloadWrapper(
+            downloader = import_module('backend.tasks.downloader.tmp.wrapper').DownloadWrapper
+            downloader = downloader(
                 False,
                 self.PATH_OUT,
                 'latest',
@@ -68,5 +69,13 @@ class DownloadThread(BackgroundThread):
                 False,
                 "backend;tasks;downloader;tmp"
             )
+            while (downloader.is_running or downloader.isRunning):
+                time.sleep(1)
+
+            with self.app.app_context():
+                from backend.models import SystemTaskModel
+                task = SystemTaskModel.query.filter(SystemTaskModel.id == task_id).first()
+                task.update({'running': False})
+            print("* Assets have been downloaded")
         except queue.Empty:
             time.sleep(1)
