@@ -7,12 +7,13 @@ Endpoints for tests
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 
-from backend.tasks import queues
-from backend.utilities.http import HTTPSchemas, HTTPStatus
-
 from . import parameters, serializer
 
+from backend.tasks import queues
+from backend.extensions import loginmanager
+from backend.utilities.http import HTTPSchemas, HTTPStatus
 from backend.models import SystemTaskModel, SystemTaskSerializer
+
 blp = Blueprint('System', 'System', description='System Endpoints', url_prefix='/api/v1/system')
 
 
@@ -20,6 +21,7 @@ class SystemTasksView(MethodView):
     @blp.route('/tasks', methods=['GET'])
     @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
     @blp.response(HTTPStatus.SUCCESS, SystemTaskSerializer(many=True))
+    @loginmanager.auth_jwt.Required(scope=['retro:admin', 'retro:owner'], operator='OR')
     def available_tasks(*args, **kwargs):
         """
         System Tasks
@@ -34,6 +36,7 @@ class SystemTasksView(MethodView):
     @blp.response(HTTPStatus.FORBIDDEN, HTTPSchemas.Forbidden())
     @blp.response(HTTPStatus.NOT_FOUND, HTTPSchemas.NotFound())
     @blp.response(HTTPStatus.SUCCESS, serializer.SystemTaskResponseSerializer(many=False))
+    @loginmanager.auth_jwt.Required(scope=['retro:admin', 'retro:owner'], operator='OR')
     def execute_task(payload, *args, **kwargs):
         """
         Execute Task

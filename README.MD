@@ -58,3 +58,10 @@ If everything is finished, you should be able to run `flask run` to start the we
 ### Frontend
 
 The frontend needs to be compiled on every change, however, at this moment there is no frontend, so don't worry about it.
+
+### Swagger
+
+The backend contains 3 different swagger pages for you to use.
+- http://127.0.0.1:5000/devs
+- http://127.0.0.1:5000/docs
+- http://127.0.0.1:5000/swagger-ui

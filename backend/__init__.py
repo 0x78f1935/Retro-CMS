@@ -11,6 +11,7 @@ from importlib import import_module
 from backend.config import Configuration
 from backend.utilities.http import HTTPSchemas, HTTPStatus
 from backend.extensions import init_app as _init_extensions
+import sys
 
 
 class Webserver(Flask):

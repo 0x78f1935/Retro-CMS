@@ -21,5 +21,6 @@ class ModulesConfig(object):
         """
         self.ENABLED_MODULES = [
             ("v0", "frontend"),
+            ("v1", "users"),
             ("v1", "tasks"),
         ]

@@ -12,6 +12,15 @@ db = SQLAlchemy()
 
 from flask_migrate import Migrate  # noqa: E402
 
+from flask_bcrypt import Bcrypt  # noqa: E402
+bcrypt = Bcrypt()
+
+from backend.extensions.loginmanager import LoginManager  # noqa: E402
+loginmanager = LoginManager()
+
+from flask_jwt_extended import JWTManager  # noqa: E402
+jwtmanager = JWTManager()
+
 
 def init_app(app) -> None:
     """
@@ -19,7 +28,10 @@ def init_app(app) -> None:
     """
     for extensions in (
         api,
+        bcrypt,
         db,
+        loginmanager,
+        jwtmanager,
     ):
         extensions.init_app(app)
     Migrate(app, db)

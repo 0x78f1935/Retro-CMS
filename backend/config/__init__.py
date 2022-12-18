@@ -73,6 +73,11 @@ class Configuration(ModulesConfig, TasksConfig):
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    STARTING_CREDITS = getenv("STARTING_CREDITS", 2500)
+    STARTING_PIXELS = getenv("STARTING_PIXELS", 500)
+    STARTING_POINTS = getenv("STARTING_POINTS", 0)
+    STARTING_DIAMONDS = getenv("STARTING_DIAMONDS", 0)
+
     # - Modules
     def __init__(self, *args, **kwargs) -> None:
         ModulesConfig.__init__(self)
