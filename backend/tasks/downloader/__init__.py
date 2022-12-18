@@ -49,9 +49,9 @@ class DownloadThread(BackgroundThread):
             print(f'* Assets are getting downloaded!.')
             downloader = import_module('backend.tasks.downloader.tmp.wrapper').DownloadWrapper
             downloader = downloader(
-                False,
+                self.app.config['DOWNLOADER_VERBOSE'],
                 self.PATH_OUT,
-                'latest',
+                self.app.config['DOWNLOADER_GORDON'],
                 'Mozilla/5.0 (Windows; U; Windows NT 6.2) AppleWebKit/534.2.1 (KHTML, like Gecko) Chrome/35.0.822.0 Safari/534.2.1',
                 100,
                 True,
