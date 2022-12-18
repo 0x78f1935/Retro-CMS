@@ -10,6 +10,7 @@ from .modules import ModulesConfig
 from .tasks import TasksConfig
 from dotenv import load_dotenv
 from os import getenv, environ
+from sys import argv
 
 load_dotenv()
 
@@ -26,10 +27,16 @@ class Configuration(ModulesConfig, TasksConfig):
     else:
         environ['FLASK_ENV'] = 'production'  # Deprecated in flask 2.3.x and higher
         environ['FLASK_DEBUG'] = getenv("DEBUG", "False")  # Replaces 'FLASK_ENV' in Flask 2.3.x and higher
-    RUN_LISTENERS = True if str(getenv("RUN_LISTENERS", False)).upper() == 'TRUE' else False
     
     DOWNLOADER_VERBOSE = True if str(getenv("DOWNLOADER_VERBOSE", False)).upper() == 'TRUE' else False
     DOWNLOADER_GORDON = getenv('DOWNLOADER_GORDON', 'latest')
+
+    RUN_LISTENERS = True if str(getenv("RUN_LISTENERS", False)).upper() == 'TRUE' else False
+    # Check for cli commands, disable listeners
+    for _forbidden in ('db', 'system',):
+        if _forbidden in argv[1:]:
+            RUN_LISTENERS = False
+            break
 
     # - Logging
     LOG_LEVEL = getenv("LOG_LEVEL", "DEBUG")
