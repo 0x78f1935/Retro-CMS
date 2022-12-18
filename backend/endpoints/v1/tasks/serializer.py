@@ -7,5 +7,5 @@ from flask_marshmallow import Schema, base_fields
 
 
 class SystemTaskSerializer(Schema):
-    thread_ident = base_fields.Integer(required=True, description='Thread ident')
-    thread_name = base_fields.String(required=True, description='Thread name')
+    task = base_fields.Integer(required=True, description='Task ID')
+    is_running = base_fields.Boolean(description='Indicates if the task is running')

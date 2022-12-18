@@ -296,23 +296,7 @@ backend/arcturus_models
 _migrations
 yarn.lock
 
-
-!backend/static/frontend/NITRO
-backend/static/frontend/CMS
-
-!backend/templates/frontend/NITRO
-backend/templates/frontend/CMS
-
 migrations
 docker/volumes
-
-backend/static/badges
-backend/static/clothes
-backend/static/Custom_clothes
-backend/static/effect
-backend/static/files
-backend/static/hot_furni
-backend/static/icons
-backend/static/mp3
-backend/static/quests
-backend/static/reception
+tmp
+backend/static

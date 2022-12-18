@@ -29,6 +29,7 @@ class Webserver(Flask):
 
         _init_extensions(self)
         self._attach_endpoints()
+        self._reset_tasks()
 
         @self.errorhandler(404)
         def catch_all(path):
@@ -63,3 +64,11 @@ class Webserver(Flask):
                     )
                 ) from e
         print("* Server ready for connections")
+
+    def _reset_tasks(self) -> None:
+        """Set tasks to default value, this method only start once the server boots"""
+        from backend.models import SystemTaskModel
+        with self.app_context():
+            tasks = SystemTaskModel.query.filter(SystemTaskModel.running == True).all()
+            for task in tasks:
+                task.update({'running': False}, commit=True)
