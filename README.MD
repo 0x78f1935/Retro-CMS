@@ -49,7 +49,7 @@ If you just cloned this repository, execute the next few commands:
 flask db init
 flask db migrate
 flask db upgrade
-flask system tasks
+flask system init
 ```
 > Note: Your `.env` file has to be configured correctly in order for this to succeed
 
