@@ -11,7 +11,6 @@
             "module": "flask",
             "env": {
                 "FLASK_APP": "webserver.py",
-                "FLASK_DEBUG": "1"
             },
             "args": [
                 "run",
