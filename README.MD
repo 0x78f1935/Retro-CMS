@@ -44,7 +44,7 @@ export FLASK_APP=webserver.py
 
 you can now feed **flask** the `--help` command to get a overview of available commands.
 
-If you just cloned this repository, execute the next few commands:
+If you just cloned this repository **fresh**, execute the next few commands:
 ```
 flask db init
 flask db migrate
