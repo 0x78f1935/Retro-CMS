@@ -1,17 +1,19 @@
 version: '3.9'
 services:
-  cache:
-    image: redis:alpine3.17
-    container_name: retro-cache
-    hostname: retro-cache
+  imager:
+    build:
+      context: .
+      dockerfile: docker/imager/imager.Dockerfile
+    image: retro-imager
+    container_name: retro-imager
+    hostname: retro-imager
     restart: always
     networks:
       - retro_network
     ports:
-      - $REDIS_PORT:6379
+      - $IMAGER_PORT:6379
     env_file:
       - .env
-    command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - ./docker/volumes/redis:/data
 

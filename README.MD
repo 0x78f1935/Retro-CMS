@@ -65,3 +65,7 @@ The backend contains 3 different swagger pages for you to use.
 - http://127.0.0.1:5000/devs
 - http://127.0.0.1:5000/docs
 - http://127.0.0.1:5000/swagger-ui
+
+---
+# Credits
+## [Credit where credit is due](.github/docs/CREDITS.MD)!
