@@ -6,6 +6,7 @@ This file represents the core of the server
 """
 from flask import Flask, request, send_from_directory, redirect
 from pathlib import Path, PurePosixPath
+from sqlalchemy.exc import ProgrammingError
 from importlib import import_module
 
 from backend.config import Configuration
@@ -70,6 +71,9 @@ class Webserver(Flask):
         """Set tasks to default value, this method only start once the server boots"""
         from backend.models import SystemTaskModel
         with self.app_context():
-            tasks = SystemTaskModel.query.filter(SystemTaskModel.running == True).all()
-            for task in tasks:
-                task.update({'running': False}, commit=True)
+            try:
+                tasks = SystemTaskModel.query.filter(SystemTaskModel.running == True).all()
+                for task in tasks:
+                    task.update({'running': False}, commit=True)
+            except ProgrammingError:
+                print("* Table 'retro.system_tasks' doesn't exist, cannot reset Tasks")

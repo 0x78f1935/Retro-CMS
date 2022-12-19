@@ -16,6 +16,7 @@ class SystemTaskModel(db.Model, Model):
         description (str): The description of a task the server might run, used in frontend
         running (bool): Indicator if the task is running
         exit_code (Int): Last known exit code status
+        has_ran (bool): Once True this task has been ran before successfully
 
     properties:
         is_running (bool): Indication if the task is running
@@ -26,6 +27,7 @@ class SystemTaskModel(db.Model, Model):
     description = db.Column(db.String(250), nullable=False)  # Task description
     running = db.Column(db.Boolean, default=False, nullable=False)  # Indicator if the task is running
     exit_code = db.Column(db.BigInteger, default=404, nullable=False)  # Last known exit status code
+    has_ran = db.Column(db.Boolean, default=False, nullable=False)  # Once True this task has been ran before successfully
 
     @property
     def is_running(self):

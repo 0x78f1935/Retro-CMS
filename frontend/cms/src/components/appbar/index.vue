@@ -43,6 +43,10 @@ export default {
                         this.$store.commit(InfoMutations.SET_APP_LONG_NAME, response.data.name_long);
                         this.$store.commit(InfoMutations.SET_APP_SHORT_NAME, response.data.name_short);
                         this.$store.commit(InfoMutations.SET_APP_NAME_LOGO, response.data.logo);
+                        this.$store.commit(InfoMutations.SET_ASSET_RAN, response.data.assets_ran);
+                        this.$store.commit(InfoMutations.SET_ASSET_STATUS, response.data.assets_status);
+                        this.$store.commit(InfoMutations.SET_CONVERTER_RAN, response.data.converter_ran);
+                        this.$store.commit(InfoMutations.SET_CONVERTER_STATUS, response.data.converter_status);
                         return;
                     }
                     console.error(response.data);

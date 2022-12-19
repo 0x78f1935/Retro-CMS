@@ -5,6 +5,10 @@ export enum InfoMutations {
     SET_APP_LONG_NAME = "SET_APP_LONG_NAME",
     SET_APP_SHORT_NAME = "SET_APP_SHORT_NAME",
     SET_APP_NAME_LOGO = "SET_APP_NAME_LOGO",
+    SET_ASSET_RAN = "SET_ASSET_RAN",
+    SET_ASSET_STATUS = "SET_ASSET_STATUS",
+    SET_CONVERTER_RAN = "SET_CONVERTER_RAN",
+    SET_CONVERTER_STATUS = "SET_CONVERTER_STATUS",
 }
 
 export const mutations: MutationTree<InfoState> = {
@@ -17,5 +21,21 @@ export const mutations: MutationTree<InfoState> = {
 
     [ InfoMutations.SET_APP_NAME_LOGO ] (state, payload: string) {
         state.app_name_logo = payload;
+    },
+
+    [ InfoMutations.SET_ASSET_RAN ] (state, payload: string) {
+        state.assets_ran = payload;
+    },
+
+    [ InfoMutations.SET_ASSET_STATUS ] (state, payload: string) {
+        state.assets_status = payload;
+    },
+
+    [ InfoMutations.SET_CONVERTER_RAN ] (state, payload: string) {
+        state.converter_ran = payload;
+    },
+
+    [ InfoMutations.SET_CONVERTER_STATUS ] (state, payload: string) {
+        state.converter_status = payload;
     },
 }

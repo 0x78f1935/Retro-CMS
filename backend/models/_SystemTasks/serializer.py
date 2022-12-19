@@ -23,3 +23,4 @@ class SystemTaskSerializer(SQLAlchemyAutoSchema):
     description = auto_field(description="The description of a task the server might run")
     running = auto_field(description="Indicator if the task is running")
     exit_code = auto_field(description="Last known exit code of last ran task")
+    has_ran = auto_field(description="Once True this task has been ran before successfully")

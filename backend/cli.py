@@ -35,7 +35,7 @@ def register(app) -> None:
         print("* Populating database...")
         tasks = [
             {
-                'sysname': 'downlader',
+                'sysname': 'downloader',
                 'name': 'Download Assets',
                 'description': 'Obtain / download available assets. Assets which already have been acquired by the host will be skipped.',
             },

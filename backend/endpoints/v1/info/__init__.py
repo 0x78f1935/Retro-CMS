@@ -4,22 +4,16 @@ Resources: Info
 ----------------
 Provides informational endpoints
 """
-from flask import request, current_app
+from flask import current_app
 from flask.views import MethodView
-from flask_smorest import Blueprint, abort
-from flask_jwt_extended import get_jwt_identity, create_access_token, create_refresh_token
-from flask_jwt_extended.view_decorators import jwt_required
-from flask_login import login_user, logout_user, current_user, login_required
-from flask_jwt_extended import create_access_token, create_refresh_token
-from sqlalchemy import or_
+from flask_smorest import Blueprint
 from urllib.parse import quote_plus
+from pathlib import Path, PurePosixPath
 
 from . import serializer
 
-from backend.extensions import db
+from backend.models import SystemTaskModel
 from backend.utilities.http import HTTPSchemas, HTTPStatus
-from backend.models import UserModel, UserSerializer, AuthenticationModel, BearerTokenSerializer, SSOTokenSerializer
-
 
 blp = Blueprint('Information', 'Information', description='Info Endpoint', url_prefix='/api/v1/info')
 
@@ -36,8 +30,14 @@ class InfoView(MethodView):
         
         This endpoint
         """
+        assets = SystemTaskModel.query.filter(SystemTaskModel.sysname == 'downloader').first()
+        converter = SystemTaskModel.query.filter(SystemTaskModel.sysname == 'converter').first()
         return {
             'name_short': current_app.config['PROJECT_NAME_SHORT'],
             'name_long': current_app.config['PROJECT_NAME'],
-            'logo': f'https://habbofont.net/font/habbo_old_big/{quote_plus(current_app.config["PROJECT_NAME_SHORT"])}.gif'
+            'logo': f'https://habbofont.net/font/habbo_old_big/{quote_plus(current_app.config["PROJECT_NAME_SHORT"])}.gif',
+            'assets_ran': assets.has_ran,
+            'assets_status': assets.exit_code,
+            'converter_ran': converter.has_ran,
+            'converter_status': converter.exit_code
         }, HTTPStatus.SUCCESS

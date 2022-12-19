@@ -7,7 +7,11 @@ import { mutations } from "./mutations";
 const state: InfoState = {
     app_long_name: "",
     app_short_name: "",
-    app_name_logo: ""
+    app_name_logo: "",
+    assets_ran: "",
+    assets_status: "",
+    converter_ran: "",
+    converter_status: "",
 }
 
 export const info: Module<InfoState, RootState> = {
