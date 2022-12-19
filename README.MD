@@ -57,7 +57,29 @@ If everything is finished, you should be able to run `flask run` to start the we
 
 ### Frontend
 
-The frontend needs to be compiled on every change, however, at this moment there is no frontend, so don't worry about it.
+The frontend needs to be compiled, assuming you are a developer, you might want to use hot-reload.
+Open a new terminal, and `cd ./frontend/cms` into the CMS folder.
+
+If this is a fresh git clone, consider installing the dependencies first.
+```
+yarn install
+```
+> You can also use: `npm install`
+
+If you have installed the dependencies, use the following command for hot-reload
+```
+yarn watch
+```
+> You can also use `npm run watch`
+
+For a production build, recommended is to run the following command
+```
+yarn build
+```
+> You can also use `npm run build`
+
+There is no need to worry about where the files will be build, they will be put into the right location for you to use.
+Python (flask) is what serves the frontend to the consumer. Even if you would make use of hot-reload, so make sure your python environment is running and setup correctly.
 
 ### Swagger
 
@@ -65,6 +87,8 @@ The backend contains 3 different swagger pages for you to use.
 - http://127.0.0.1:5000/devs
 - http://127.0.0.1:5000/docs
 - http://127.0.0.1:5000/swagger-ui
+
+Those pages contain information on all the different endpoints available to you. Endpoints located here are in active use by the frontend. However, you could utilize those endpoints for yourself to make your own app!
 
 ### Character Renderer
 
