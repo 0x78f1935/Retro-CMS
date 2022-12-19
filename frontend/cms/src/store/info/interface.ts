@@ -7,4 +7,5 @@ export interface InfoState {
     assets_status: string,
     converter_ran: string,
     converter_status: string,
+    random_look: string,
 }

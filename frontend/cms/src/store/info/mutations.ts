@@ -9,6 +9,7 @@ export enum InfoMutations {
     SET_ASSET_STATUS = "SET_ASSET_STATUS",
     SET_CONVERTER_RAN = "SET_CONVERTER_RAN",
     SET_CONVERTER_STATUS = "SET_CONVERTER_STATUS",
+    SET_RANDOM_LOOK = "SET_RANDOM_LOOK"
 }
 
 export const mutations: MutationTree<InfoState> = {
@@ -37,5 +38,9 @@ export const mutations: MutationTree<InfoState> = {
 
     [ InfoMutations.SET_CONVERTER_STATUS ] (state, payload: string) {
         state.converter_status = payload;
+    },
+
+    [ InfoMutations.SET_RANDOM_LOOK ] (state, payload: string) {
+        state.random_look = payload;
     },
 }

@@ -14,3 +14,4 @@ class ApplicationResponseSerializer(Schema):
     assets_status = base_fields.Integer(description='Last known status of the downloader')
     converter_ran = base_fields.Boolean(description='Indicator if the application ran the converter before')
     converter_status = base_fields.Integer(description='Last known status of the converter')
+    random_look = base_fields.String(description='Random available guest look')

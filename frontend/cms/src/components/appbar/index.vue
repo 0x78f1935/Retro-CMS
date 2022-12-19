@@ -47,6 +47,7 @@ export default {
                         this.$store.commit(InfoMutations.SET_ASSET_STATUS, response.data.assets_status);
                         this.$store.commit(InfoMutations.SET_CONVERTER_RAN, response.data.converter_ran);
                         this.$store.commit(InfoMutations.SET_CONVERTER_STATUS, response.data.converter_status);
+                        this.$store.commit(InfoMutations.SET_RANDOM_LOOK, response.data.random_look);
                         return;
                     }
                     console.error(response.data);

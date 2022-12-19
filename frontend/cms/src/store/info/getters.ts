@@ -10,4 +10,5 @@ export const getters: GetterTree<InfoState, RootState> = {
     assets_status (state): string { return state.assets_status; },
     converter_ran (state): string { return state.converter_ran; },
     converter_status (state): string { return state.converter_status; },
+    random_look (state): string { return state.random_look; },
 }

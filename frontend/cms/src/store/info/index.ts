@@ -12,6 +12,7 @@ const state: InfoState = {
     assets_status: "",
     converter_ran: "",
     converter_status: "",
+    random_look: "",
 }
 
 export const info: Module<InfoState, RootState> = {
