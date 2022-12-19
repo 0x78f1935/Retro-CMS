@@ -66,6 +66,18 @@ The backend contains 3 different swagger pages for you to use.
 - http://127.0.0.1:5000/docs
 - http://127.0.0.1:5000/swagger-ui
 
+### Character Renderer
+
+To render characters, we use [nitro-imager](https://github.com/billsonnn/nitro-imager) internally.
+This is a server on it's own which you are required to start before characters are able to load correctly.
+Before the imager works, you are required to have the assets downloaded and converted. This can be done within the CMS.
+
+Once you have the assets downloaded and converted, for local development, just start `docker-compose.yaml`
+```
+docker-compose up --build imager
+```
+By adding `-d` you detach the terminal from docker once the container has started. Feel free to use this option if you would like to keep using your terminal.
+
 ---
 # Credits
 ## [Credit where credit is due](.github/docs/CREDITS.MD)!
