@@ -77,7 +77,7 @@ class DownloadThread(BackgroundThread):
             with self.app.app_context():
                 from backend.models import SystemTaskModel
                 task = SystemTaskModel.query.filter(SystemTaskModel.id == task_id).first()
-                task.update({'running': False, 'has_ran': True})
+                task.update({'running': False, 'has_ran': True, 'exit_code': 0})
             print("* Assets have been downloaded")
         except queue.Empty:
             time.sleep(1)
