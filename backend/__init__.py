@@ -39,14 +39,14 @@ class Webserver(Flask):
             Redirects each non existing endpoint to the main page.
             When `API` is included in the url we ignore this redirect.
             """
-            if 'api' not in request.base_url and 'static' not in request.base_url and 'auth' not in request.base_url:
+            check = request.base_url.replace(request.host_url, '').split('/')[0]
+            if check not in ('api', 'backend',):
                 return redirect(f"{request.host_url[:len(request.host_url)-1]}", code=302)
-            elif 'static' not in request.base_url and 'auth' not in request.base_url and hasattr(path, 'data'):
+            elif check not in ('backend',) and hasattr(path, 'data'):
                 return HTTPSchemas.NotFound().dump(path.data), HTTPStatus.NOT_FOUND
-            elif 'static' not in request.base_url and 'auth' not in request.base_url:
-                return HTTPSchemas.NotFound().dump({}), HTTPStatus.NOT_FOUND
-            elif 'static' in request.base_url and 'auth' not in request.base_url and 'api' not in request.base_url:
+            elif check not in ('static',):
                 return send_from_directory(directory='static', path=request.base_url.split('static')[1][1:])
+            return HTTPSchemas.NotFound().dump({}), HTTPStatus.NOT_FOUND
 
     def _attach_endpoints(self) -> None:
         """Attach endpoints based on modules.ModulesConfig.ENABLED_MODULES"""

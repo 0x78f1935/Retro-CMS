@@ -67,6 +67,8 @@ class DownloadThread(BackgroundThread):
                 False,
                 False,
                 False,
+                False,
+                False,
                 "backend;tasks;downloader;tmp"
             )
             while (downloader.is_running or downloader.isRunning):
