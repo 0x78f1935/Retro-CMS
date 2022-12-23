@@ -13,6 +13,7 @@ export enum UserActions {
     USER_LOGIN = "AUTH_USER",
     USER_LOGOUT = "OUT_USER",
     USER_REGISTER = "REG_USER",
+    USER_SSO = "SSO_USER",
 }
 
 export const actions: ActionTree<UserState, RootState> = {
@@ -21,15 +22,19 @@ export const actions: ActionTree<UserState, RootState> = {
         state.commit("CLEAR_AUTH");
     },
 
-    [UserActions.USER_LOGIN] (state, {username, password}) {
+    async [UserActions.USER_LOGIN] (state, {username, password}) {
         state.commit(UserMutations.SET_USERNAME, username);
-        AuthService.login(state, username, password);
-        AuthService.sso(state);
+        await AuthService.login(state, username, password);
+        state.dispatch(UserActions.USER_SSO);
     },
 
     [UserActions.USER_LOGOUT] (state) {
         AuthService.logout(state);
         state.dispatch(SystemActions.PRUNE);
+    },
+
+    [UserActions.USER_SSO] (state) {
+        AuthService.sso(state);
     },
 
     async [UserActions.USER_REGISTER] (state, {username, email, password}) {
