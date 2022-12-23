@@ -138,7 +138,7 @@ class UsersView(MethodView):
 
         > No bearer token required
         """
-        user = UserModel.query.filter(UserModel.email == formdata["email"]).first()
+        user = UserModel.query.filter(UserModel.username == formdata["username"]).first()
         if user is None:
             return abort(HTTPStatus.NOT_FOUND, **HTTPSchemas.NotFound().dump({
                 'message': 'User not found!',

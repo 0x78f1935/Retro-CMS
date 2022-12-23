@@ -4,4 +4,5 @@ import { SystemState } from "./interface";
 
 export const getters: GetterTree<SystemState, RootState> = {
     showRegister (state): boolean { return state.showRegister; },
+    showLoading (state): boolean { return state.showLoading; },
 }

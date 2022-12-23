@@ -14,11 +14,11 @@
         </v-text-field>
       </v-form>
       <v-card-actions v-bind:style="{justifyContent: 'start'}">
-        <v-btn @click="login" width="50%" variant="elevated" class="ml-8" v-bind:style="{backgroundColor: '#167CBB', outline: 'auto', outlineStyle: 'groove'}">
+        <v-btn @click="login()" width="50%" variant="elevated" class="ml-8" v-bind:style="{backgroundColor: '#167CBB', outline: 'auto', outlineStyle: 'groove'}">
           Connect
         </v-btn>
         <v-spacer/>
-        <v-btn @click="register" width="auto" variant="elevated" class="ml-4" v-bind:style="{backgroundColor: '#167CBB', outline: 'auto', outlineStyle: 'groove'}" color="success" icon>
+        <v-btn @click="register()" width="auto" variant="elevated" class="ml-4" v-bind:style="{backgroundColor: '#167CBB', outline: 'auto', outlineStyle: 'groove'}" color="success" icon>
           Register
         </v-btn>
       </v-card-actions>
@@ -27,9 +27,8 @@
 </template>
   
 <script lang='ts'>
-import axios from "axios";
 import { defineComponent } from 'vue'
-import { UserMutations, AuthenticationMutations } from "@/store/user/mutations";
+import { UserActions } from "@/store/user/actions";
 import { SystemMutations } from "@/store/system/mutations";
 
 function initialState() {
@@ -69,26 +68,7 @@ export default defineComponent({
     async login() {
       const { valid } = await (this.$refs.form as HTMLFormElement).validate();
       if (valid) {
-        axios
-          .post("/api/v1/users/login", {
-            email: this.$data.collection.email,
-            password: this.$data.collection.password,
-          })
-          .then((response: any) => {
-            if (response.status == 200) {
-              this.$store.commit(UserMutations.SET_EMAIL, this.$data.collection.email);
-              this.$store.commit(AuthenticationMutations.SET_ACCESS_TOKEN, response.data.access_token);
-              return;
-            }
-            console.error(response.data);
-            this.$data.message = "Something went wrong, Try again!";
-          })
-          .catch((e: any) => {
-            if (e.response.data["message"]) {
-              console.error(e.response.data.message);
-              this.$data.message = e.response.data.message;
-            }
-          });
+        this.$store.dispatch(UserActions.USER_LOGIN, { username: this.$data.collection.email, password: this.$data.collection.password});
       }
     },
     register() {

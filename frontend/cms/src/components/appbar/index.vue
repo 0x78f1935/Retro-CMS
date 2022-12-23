@@ -10,8 +10,7 @@
 </template>
     
 <script>
-import axios from "axios";
-import { InfoMutations } from "@/store/info/mutations";
+import { InfoActions } from "@/store/info/actions";
 
 function initialState() {
   return {
@@ -31,33 +30,7 @@ export default {
   },
 
   created() {
-    this.info();
-  },
-
-  methods: {
-    info() {
-      axios
-        .get("/api/v1/info/app")
-        .then((response) => {
-          if (response.status == 200) {
-            this.$store.commit(InfoMutations.SET_APP_LONG_NAME, response.data.name_long);
-            this.$store.commit(InfoMutations.SET_APP_SHORT_NAME, response.data.name_short);
-            this.$store.commit(InfoMutations.SET_APP_NAME_LOGO, response.data.logo);
-            this.$store.commit(InfoMutations.SET_ASSET_RAN, response.data.assets_ran);
-            this.$store.commit(InfoMutations.SET_ASSET_STATUS, response.data.assets_status);
-            this.$store.commit(InfoMutations.SET_CONVERTER_RAN, response.data.converter_ran);
-            this.$store.commit(InfoMutations.SET_CONVERTER_STATUS, response.data.converter_status);
-            this.$store.commit(InfoMutations.SET_RANDOM_LOOK, response.data.random_look);
-            return;
-          }
-          console.error(response.data);
-        })
-        .catch((e) => {
-          if (e.response.data["message"]) {
-            console.error(e.response.data.message);
-          }
-        });
-    },
+    this.$store.dispatch(InfoActions.PUBLIC);
   },
 };
 </script>

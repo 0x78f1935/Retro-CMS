@@ -71,6 +71,7 @@
 </template>
     
 <script lang='ts'>
+import { UserActions } from "@/store/user/actions";
 import { SystemMutations } from '@/store/system/mutations';
 import { defineComponent } from 'vue'
 
@@ -99,6 +100,7 @@ export default defineComponent({
       this.$store.commit(SystemMutations.SET_SHOW_REGISTER, false);
     },
     submit_dialog() {
+      this.$store.dispatch(UserActions.USER_REGISTER, { username: this.$data.collection.username, email: this.$data.collection.email, password: this.$data.collection.password});
       this.close_dialog();
     }
   },

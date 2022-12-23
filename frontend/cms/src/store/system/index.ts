@@ -6,6 +6,7 @@ import { mutations } from "./mutations";
 
 const state: SystemState = {
     showRegister: false,
+    showLoading: false,
 }
 
 export const system: Module<SystemState, RootState> = {

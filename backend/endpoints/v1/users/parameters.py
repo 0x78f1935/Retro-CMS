@@ -24,7 +24,7 @@ class UserAuthorizationParameters(Parameters, UserSerializer):
     """
     class Meta:
         ordered = True
-        fields = ('email', 'password',)
+        fields = ('username', 'password',)
 
 
 class UpdateMeParameters(Parameters, UserSerializer):

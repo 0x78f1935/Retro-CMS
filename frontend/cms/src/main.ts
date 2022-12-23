@@ -4,8 +4,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
+import setupInterceptors from './services/__setupInterceptors';
 
 loadFonts()
+setupInterceptors(store);
 
 const app = createApp(App);
 app.config.globalProperties.$store = store;

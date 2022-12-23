@@ -81,7 +81,7 @@ After successful authentication a new SSO ticket will be generated. Returns acce
 
 ## Refresh Token
 
-The `access_token` is valid by default for **15** min. You can change this in the `.env` file located in the root of this project.
+The `access_token` is valid by default for **15** min after which the token expires.
 After the expiration time, the `access_token` expires and stops working. The `refresh_token` can be utilized to obtain a new `access_token`.
 
 **POST** `/api/v1/users/refresh`
