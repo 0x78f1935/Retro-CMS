@@ -105,3 +105,7 @@ By adding `-d` you detach the terminal from docker once the container has starte
 ---
 # Credits
 ## [Credit where credit is due](.github/docs/CREDITS.MD)!
+
+---
+# Advanced Topics
+[This section is specifically written for contributors / developers which would like to read more about how the internals work.](.github/docs/index.md)
