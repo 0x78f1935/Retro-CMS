@@ -73,6 +73,8 @@ class DownloadThread(BackgroundThread):
             )
             while (downloader.is_running or downloader.isRunning):
                 time.sleep(1)
+            
+            shutil.rmtree(self.PATH_TMP)
 
             with self.app.app_context():
                 from backend.models import SystemTaskModel

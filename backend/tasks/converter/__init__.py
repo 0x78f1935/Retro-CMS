@@ -50,26 +50,19 @@ class ConvertThread(BackgroundThread):
             print(f'* Assets are getting converted!.')
             self._update_config()
             # command = ["cd", self.PATH_TMP, "&&", "yarn", "start"]
-            result_start = subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start"], capture_output=True, shell=True)
-            print(result_start.stdout)
-            print(result_start.stderr)
-            result_bundle = subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start:bundle"], capture_output=True, shell=True)
-            print(result_bundle.stdout)
-            print(result_bundle.stderr)
-            result_extract = subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start:extract"], capture_output=True, shell=True)
-            print(result_extract.stdout)
-            print(result_extract.stderr)
-            result_convert = subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start:convert-swf"], capture_output=True, shell=True)
-            print(result_convert.stdout)
-            print(result_convert.stderr)
-           
+            subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start"], shell=True)
+            subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start:bundle"], shell=True)
+            subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start:extract"], shell=True)
+            subprocess.run(["yarn", "--cwd", self.PATH_TMP, "start:convert-swf"], shell=True)
+            
+            shutil.copytree(PurePosixPath(self.PATH_TMP, 'assets', 'bundled').as_posix(), PurePosixPath(self.PATH_OUT, 'bundled').as_posix())
+            shutil.rmtree(self.PATH_TMP)
             with self.app.app_context():
                 from backend.models import SystemTaskModel
                 task = SystemTaskModel.query.filter(SystemTaskModel.id == task_id).first()
-                # task.update({'running': False, 'has_ran': True, 'exit_code': 0})
-                task.update({'running': False})
+                task.update({'running': False, 'has_ran': True, 'exit_code': 0})
 
-            print("* Assets have been downloaded")
+            print("* Assets have been converted")
         except queue.Empty:
             time.sleep(1)
 
@@ -77,14 +70,34 @@ class ConvertThread(BackgroundThread):
         """
         Obtains known gordon version which has been downloaded from the retro-downloader tool.
         If gordon version is known, we update the configuration of the converter.
-        """
-        with open(PurePosixPath(self.PATH_TMP, 'configuration.json').as_posix(), 'r') as _config:
-            config = json.load(_config)
-            
+        """           
         if GORDON_VERSIONS := os.listdir(PurePosixPath(self.PATH_OUT, 'gordon')):
             GORDON_VERSION = GORDON_VERSIONS[0]
         else:
             GORDON_VERSION = 'NO-ASSETS'
-        config['flash.client.url'] = config['flash.client.url'].replace('GORDON-PRODUCTION', GORDON_VERSION)
+            
+        CONFIG = {
+            "output.folder": self.PATH_OUT,
+            "flash.client.url": f"http://127.0.0.1:5000/gordon/{GORDON_VERSION}/",
+            "furnidata.load.url": "http://127.0.0.1:5000/gamedata/furnidata.xml",
+            "productdata.load.url": "http://127.0.0.1:5000/gamedata/productdata.xml",
+            "figuredata.load.url": "http://127.0.0.1:5000/gamedata/figuredata.xml",
+            "figuremap.load.url": "http://127.0.0.1:5000/gamedata/figuremap.xml",
+            "effectmap.load.url": "http://127.0.0.1:5000/gamedata/effectmap.xml",
+            "dynamic.download.pet.url": "${flash.client.url}pets/%className%.swf",
+            "dynamic.download.figure.url": "${flash.client.url}figure/%className%.swf",
+            "dynamic.download.effect.url": "${flash.client.url}effects/%className%.swf",
+            "flash.dynamic.download.url": "http://127.0.0.1:5000/dcr/hof_furni/",
+            "dynamic.download.furniture.url": "${flash.dynamic.download.url}%className%.swf",
+            "external.variables.url": "http://127.0.0.1:5000/gamedata/external_variables.txt",
+            "external.texts.url": "http://127.0.0.1:5000/gamedata/external_flash_texts.txt",
+            "convert.figure": "1",
+            "convert.effect": "1",
+            "convert.furniture": "1",
+            "convert.furniture.floor.only": "0",
+            "convert.furniture.wall.only": "0",
+            "convert.pet": "1",
+        }
+
         with open(PurePosixPath(self.PATH_TMP, 'configuration.json').as_posix(), 'w') as _config:
-            json.dump(config, _config, indent=2)
+            json.dump(CONFIG, _config, indent=2)

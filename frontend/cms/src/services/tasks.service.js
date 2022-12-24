@@ -11,7 +11,6 @@ class TaskService {
   }
 
   execute(store, id) {
-    console.log(store, id);
     return api.post("/v1/system/tasks", { id }).then((response) => {
       if (response.status == 200) {
         console.log(response.data);
