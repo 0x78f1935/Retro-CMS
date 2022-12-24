@@ -1,5 +1,6 @@
 import api from "./api";
 import TokenService from "./__token.service";
+import router from '@/router';
 
 class AuthService {
   login(store, username, password) {
@@ -12,6 +13,7 @@ class AuthService {
         if (response.status == 200) {
           TokenService.updateAccessToken(store, response.data.access_token);
           TokenService.updateRefreshToken(store, response.data.refresh_token);
+          router.push('/me');
         }
       });
   }

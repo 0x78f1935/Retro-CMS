@@ -10,9 +10,7 @@
     </v-main>
 
     <!-- Dialogs -->
-    <v-section>
-      <create_accountVue/>
-    </v-section>
+    <create_accountVue/>
 
     <!-- Background -->
     <v-container v-bind:style="{backgroundImage: 'url(\'' + '/c_images/reception/background_left_xmas22.png' + '\')', position: 'absolute', minHeight: '100vh', minWidth: '100vw', backgroundPosition: 'bottom left', zIndex: 0}" v-if="$vuetify.display.smAndUp"/>
