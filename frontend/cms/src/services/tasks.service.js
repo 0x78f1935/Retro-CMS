@@ -10,9 +10,9 @@ class TaskService {
     });
   }
 
-  execute(store, task_id) {
-    return api.post("/v1/system/tasks", { id: task_id })
-    .then((response) => {
+  execute(store, id) {
+    console.log(store, id);
+    return api.post("/v1/system/tasks", { id }).then((response) => {
       if (response.status == 200) {
         console.log(response.data);
         return;

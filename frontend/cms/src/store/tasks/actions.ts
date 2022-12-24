@@ -14,7 +14,8 @@ export const actions: ActionTree<TaskState, RootState> = {
         TaskService.poll(state);
     },
 
-    [TaskActions.EXECUTE] (state, { task_id }) {
+    [TaskActions.EXECUTE] (state, task_id) {
+        console.log(task_id);
         TaskService.execute(state, task_id);
     },
 }

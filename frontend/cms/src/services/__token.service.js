@@ -4,6 +4,7 @@ class TokenService {
   getRefreshToken(store) {
     return store.getters.refresh_token;
   }
+
   getAccessToken(store) {
     return store.getters.access_token;
   }

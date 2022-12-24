@@ -2,7 +2,7 @@
   <NitroClient v-if="canPlay" />
   <v-container v-else>
     <v-row dense v-if="$store.getters.scope.includes('retro:admin') || $store.getters.scope.includes('retro:owner')">
-      <v-card class="mx-auto">
+      <v-card class="mx-auto" v-bind:style="{maxWidth: '860px'}">
         <v-img :src="require('@/assets/construction.png')" class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
           <v-card-title>Configure CMS</v-card-title>

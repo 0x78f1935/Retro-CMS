@@ -1,6 +1,8 @@
 import instance from "./api";
 import TokenService from "./__token.service";
 import { AuthenticationMutations } from "@/store/user/mutations";
+import router from "@/router";
+import axios from "axios";
 
 const setup = (store) => {
   instance.interceptors.request.use(
@@ -28,11 +30,9 @@ const setup = (store) => {
           originalConfig._retry = true; // Bounce
 
           try {
-            const rs = await instance.post("/v1/users/refresh", {
-              headers: {
-                Authorization: `Bearer ${TokenService.getRefreshToken(store)}`,
-              },
-            });
+            const _refresh_token = TokenService.getRefreshToken(store);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${_refresh_token}`;
+            const rs = await axios.post("/api/v1/users/refresh").catch(() => {router.push('/');});
 
             const { access_token, refresh_token } = rs.data;
             store.commit(
