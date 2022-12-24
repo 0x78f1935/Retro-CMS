@@ -81,6 +81,8 @@ yarn build
 There is no need to worry about where the files will be build, they will be put into the right location for you to use.
 Python (flask) is what serves the frontend to the consumer. Even if you would make use of hot-reload, so make sure your python environment is running and setup correctly.
 
+> NOTE: yarn has to be available for the application itself. You cannot fully utilize this application if `yarn` is not available as a global system environment variable.
+
 ### Swagger
 
 The backend contains 3 different swagger pages for you to use.

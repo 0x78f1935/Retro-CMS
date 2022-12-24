@@ -14,4 +14,5 @@ class TasksConfig(object):
         """
         self.ENABLED_TASKS = (
             ('DOWNLOADER', 'downloader',),
+            ('CONVERTER', 'converter',),
         )

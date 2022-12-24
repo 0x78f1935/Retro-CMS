@@ -3,8 +3,8 @@
 Parameters: System Tasks
 ------------------
 """
+from flask_marshmallow import base_fields
 from backend.utilities.parameters import Parameters
-
 from backend.models import SystemTaskSerializer
 
 
@@ -15,3 +15,4 @@ class SystemTaskExecutorParameters(Parameters, SystemTaskSerializer):
     class Meta:
         ordered = True
         fields = ('id',)
+    id = base_fields.Integer(required=True, description="The ID of a Task")

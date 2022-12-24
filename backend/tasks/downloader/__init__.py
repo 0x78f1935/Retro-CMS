@@ -55,20 +55,20 @@ class DownloadThread(BackgroundThread):
                 'Mozilla/5.0 (Windows; U; Windows NT 6.2) AppleWebKit/534.2.1 (KHTML, like Gecko) Chrome/35.0.822.0 Safari/534.2.1',
                 100,
                 True,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
                 "backend;tasks;downloader;tmp"
             )
             while (downloader.is_running or downloader.isRunning):
@@ -78,6 +78,7 @@ class DownloadThread(BackgroundThread):
                 from backend.models import SystemTaskModel
                 task = SystemTaskModel.query.filter(SystemTaskModel.id == task_id).first()
                 task.update({'running': False, 'has_ran': True, 'exit_code': 0})
+
             print("* Assets have been downloaded")
         except queue.Empty:
             time.sleep(1)

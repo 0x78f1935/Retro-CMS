@@ -63,6 +63,8 @@ class SystemTasksView(MethodView):
                 }
             })), HTTPStatus.FORBIDDEN
         task.update({'running': True}, commit=True)
-        # TODO 
-        queues.QUEUE_DOWNLOADER.put(task.id)
+        if task.sysname == 'downloader':
+            queues.QUEUE_DOWNLOADER.put(task.id)
+        elif task.sysname == 'converter':
+            queues.QUEUE_CONVERTER.put(task.id)
         return { 'task': task.id, 'is_running': task.is_running }, HTTPStatus.SUCCESS

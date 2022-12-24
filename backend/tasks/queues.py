@@ -6,4 +6,5 @@ Holds various queues which are used by background tasks, some queues might be ve
 """
 from queue import Queue
 
-QUEUE_DOWNLOADER = Queue()  # Doesn't matter what value goes into it, placement will trigger the downloader
+QUEUE_DOWNLOADER = Queue()  # task_id goes into this
+QUEUE_CONVERTER = Queue()  # task_id goes into this

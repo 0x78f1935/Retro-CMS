@@ -10,8 +10,8 @@ from flask_smorest import Blueprint, abort
 from flask_jwt_extended import get_jwt_identity, create_access_token, create_refresh_token
 from flask_jwt_extended.view_decorators import jwt_required
 from flask_login import login_user, logout_user, current_user, login_required
-from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy import or_
+from datetime import timedelta
 
 from . import parameters
 
@@ -148,8 +148,8 @@ class UsersView(MethodView):
             })), HTTPStatus.NOT_FOUND
         if user.authentication.check_password(formdata['password']):
             user.generate_sso_ticket()
-            user._access_token = create_access_token(identity=user.id, fresh=True)
-            user._refresh_token = create_refresh_token(user.id)
+            user._access_token = create_access_token(identity=user.id, fresh=True, expires_delta=timedelta(minutes=15))
+            user._refresh_token = create_refresh_token(user.id, expires_delta=timedelta(hours=30))
             login_user(user)
             return user, HTTPStatus.SUCCESS
 
@@ -161,7 +161,7 @@ class UsersView(MethodView):
         })), HTTPStatus.UNAUTHORIZED
         
     @blp.route('/refresh', methods=['POST'])
-    @jwt_required(refresh=True)
+    @jwt_required(refresh=True, locations=['headers'])
     @blp.response(HTTPStatus.UNAUTHORIZED, HTTPSchemas.Unauthorized())
     @blp.response(HTTPStatus.SUCCESS, BearerTokenSerializer(many=False))
     def authenticate_user(*args, **kwargs):
@@ -178,8 +178,8 @@ class UsersView(MethodView):
                 }
             })), HTTPStatus.NOT_FOUND
             
-        user._access_token = create_access_token(identity=user_id, fresh=True)
-        user._refresh_token = create_refresh_token(user_id)
+        user._access_token = create_access_token(identity=user_id, fresh=True, expires_delta=timedelta(minutes=1))
+        user._refresh_token = create_refresh_token(user_id, expires_delta=timedelta(hours=1))
         return user, 200
 
     @blp.route('/logout', methods=['GET'])
