@@ -2,7 +2,7 @@
   <v-container style="height: 100%">
     <v-row no-gutters style="height: 100%">
       <v-col :cols="cols[0]" v-if="cols[0] !=0 " style="placeSelf: center">
-        <v-img src="/c_images/archive/jukka_guest2.gif" height="150"></v-img>
+        <NitroImager :figure="$store.getters.random_look" expression="wave" :dance="2"/>
         <registerVue style="maxWidth: 100%" />
       </v-col>
       <v-col :cols="cols[1]" v-if="cols[1] != 0" style="placeSelf: center">
@@ -20,13 +20,15 @@
 import { defineComponent } from 'vue';
 import Signin from '../components/authentication/signin.vue';
 import registerVue from '@/components/authentication/register.vue';
+import NitroImager from '@/components/Imager.vue';
 
 export default defineComponent({
   name: 'HomeView',
 
   components: {
     Signin,
-    registerVue
+    registerVue,
+    NitroImager
   },
 
   computed: {

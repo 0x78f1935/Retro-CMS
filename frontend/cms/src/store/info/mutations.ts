@@ -9,6 +9,8 @@ export enum InfoMutations {
     SET_ASSET_STATUS = "SET_ASSET_STATUS",
     SET_CONVERTER_RAN = "SET_CONVERTER_RAN",
     SET_CONVERTER_STATUS = "SET_CONVERTER_STATUS",
+    SET_IMAGER_RAN = "SET_IMAGER_RAN",
+    SET_IMAGER_STATUS = "SET_IMAGER_STATUS",
     SET_RANDOM_LOOK = "SET_RANDOM_LOOK"
 }
 
@@ -38,6 +40,14 @@ export const mutations: MutationTree<InfoState> = {
 
     [ InfoMutations.SET_CONVERTER_STATUS ] (state, payload: string) {
         state.converter_status = payload;
+    },
+
+    [ InfoMutations.SET_IMAGER_RAN ] (state, payload: string) {
+        state.imager_ran = payload;
+    },
+
+    [ InfoMutations.SET_IMAGER_STATUS ] (state, payload: string) {
+        state.imager_status = payload;
     },
 
     [ InfoMutations.SET_RANDOM_LOOK ] (state, payload: string) {

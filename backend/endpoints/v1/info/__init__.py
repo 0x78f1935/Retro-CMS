@@ -33,6 +33,7 @@ class InfoView(MethodView):
         """
         assets = SystemTaskModel.query.filter(SystemTaskModel.sysname == 'downloader').first()
         converter = SystemTaskModel.query.filter(SystemTaskModel.sysname == 'converter').first()
+        imager = SystemTaskModel.query.filter(SystemTaskModel.sysname == 'imager').first()
         random_character = UserModel.query.order_by(func.random()).first()
         return {
             'name_short': current_app.config['PROJECT_NAME_SHORT'],
@@ -42,6 +43,8 @@ class InfoView(MethodView):
             'assets_status': assets.exit_code,
             'converter_ran': converter.has_ran,
             'converter_status': converter.exit_code,
+            'imager_ran': imager.has_ran,
+            'imager_status': imager.exit_code,
             'random_look': 'hr-115-42.hd-195-19.ch-3030-82.lg-275-1408.fa-1201.ca-1804-64' if random_character is None \
                 else random_character.look,
         }, HTTPStatus.SUCCESS

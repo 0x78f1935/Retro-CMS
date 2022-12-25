@@ -73,6 +73,11 @@ function initialState() {
         icon: 'mdi-airballoon',
         loadColor: 'green-darken-1'
       },
+      {
+        color: 'indigo-lighten-2',
+        icon: 'mdi-buffer',
+        loadColor: 'indigo-darken-2'
+      },
     ],
   };
 }

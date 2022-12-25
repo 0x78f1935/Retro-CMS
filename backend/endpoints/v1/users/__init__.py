@@ -178,8 +178,8 @@ class UsersView(MethodView):
                 }
             })), HTTPStatus.NOT_FOUND
             
-        user._access_token = create_access_token(identity=user_id, fresh=True, expires_delta=timedelta(minutes=1))
-        user._refresh_token = create_refresh_token(user_id, expires_delta=timedelta(hours=1))
+        user._access_token = create_access_token(identity=user_id, fresh=True, expires_delta=timedelta(minutes=15))
+        user._refresh_token = create_refresh_token(user_id, expires_delta=timedelta(hours=30))
         return user, 200
 
     @blp.route('/logout', methods=['GET'])

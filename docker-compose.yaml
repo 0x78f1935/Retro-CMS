@@ -11,7 +11,7 @@ services:
     networks:
       - retro_network
     ports:
-      - $IMAGER_PORT:6379
+      - $IMAGER_PORT:1338
     env_file:
       - .env
     volumes: 

@@ -13,6 +13,8 @@ const state: InfoState = {
     assets_status: "",
     converter_ran: "",
     converter_status: "",
+    imager_ran: "",
+    imager_status: "",
     random_look: "",
 }
 

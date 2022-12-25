@@ -24,6 +24,14 @@ class PublicService {
           InfoMutations.SET_CONVERTER_STATUS,
           response.data.converter_status
         );
+        store.commit(
+          InfoMutations.SET_IMAGER_RAN,
+          response.data.imager_ran
+        );
+        store.commit(
+          InfoMutations.SET_IMAGER_STATUS,
+          response.data.imager_status
+        );
         store.commit(InfoMutations.SET_RANDOM_LOOK, response.data.random_look);
       }
     });

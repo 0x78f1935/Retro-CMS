@@ -45,9 +45,9 @@ def register(app) -> None:
                 'description': 'Try to convert assets downloaded from the previous step. Assets which failed couldn\'t be downloaded from available assets. Better luck next time.',
             },
             {
-                'sysname': 'emulator',
-                'name': 'Check Emulator',
-                'description': 'Ping the emulator for a valid connection',
+                'sysname': 'imager',
+                'name': 'Enable Imager',
+                'description': 'The imager allows local renders of avatars and gets automatically enabled when the required assets are available.',
             },
         ]
         for task in tasks:

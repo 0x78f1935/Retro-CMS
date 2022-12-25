@@ -1,6 +1,7 @@
 FROM annihilator708/py_node:3.9.13 AS deplayer
 ENV DEBIAN_FRONTEND=noninteractive
 
+ARG IMAGER_PORT $IMAGER_PORT
 RUN apt-get install -y zip
 WORKDIR /workspaceFolder
 COPY ./docker/imager/nitro-imager.zip .
@@ -10,7 +11,7 @@ RUN sh -c "$(/bin/echo -e 'cat > /workspaceFolder/config.json << EOF\
     \n{\
     \n    "api.host": "0.0.0.0",\
     \n    "api.port": 1338,\
-    \n    "asset.url": "http://127.0.0.1:5000",\
+    \n    "asset.url": "http://0.0.0.0:5000",\
     \n    "gamedata.url": "\${asset.url}/gamedata",\
     \n    "avatar.save.path": "/workspaceFolder/saved-figures",\
     \n    "avatar.actions.url": "\${gamedata.url}/HabboAvatarActions.json",\
@@ -50,5 +51,5 @@ RUN sh -c "$(/bin/echo -e 'cat > /workspaceFolder/config.json << EOF\
 RUN npm install
 RUN npm run build
 
-EXPOSE 1338
+EXPOSE ${IMAGER_PORT}
 ENTRYPOINT [ "npm", "start" ]
