@@ -51,9 +51,10 @@ def create_server() -> object:
     """
     server = Webserver()
     register(server)
-    create_subprocesses(server)
+    # Make sure we only start the threads one time, even in debug mode
+    if os.environ.get("WERKZEUG_RUN_MAIN"):
+        create_subprocesses(server)
     return server
-
 
 app = create_server()
 
