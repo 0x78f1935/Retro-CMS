@@ -19,6 +19,7 @@ from backend.tasks.queues import QUEUE_DOWNLOADER
 
 
 class DownloadThread(BackgroundThread):
+    name = 'Retro-Downloader'
     PATH_OUT = PurePosixPath(Path(__file__).resolve().parent.parent.parent, 'static').as_posix()
     PATH_ZIP = PurePosixPath(Path(__file__).resolve().parent, 'RetroDownloader.zip').as_posix()
     PATH_TMP = PurePosixPath(Path(__file__).resolve().parent, 'tmp').as_posix()
@@ -74,8 +75,6 @@ class DownloadThread(BackgroundThread):
             while (downloader.is_running or downloader.isRunning):
                 time.sleep(1)
             
-            shutil.rmtree(self.PATH_TMP)
-
             with self.app.app_context():
                 from backend.models import SystemTaskModel
                 task = SystemTaskModel.query.filter(SystemTaskModel.id == task_id).first()
