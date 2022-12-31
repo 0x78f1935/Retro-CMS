@@ -116,7 +116,7 @@ export default {
 
   methods: {
     render() {
-      const base_link = `http://127.0.0.1:8889/?figure=${this.$props.figure}&action=${this.$props.actions},${this.$props.expression},${this.$props.carry}&gesture=${this.$props.gesture}&direction=${this.$props.direction}&head_direction=${this.$props.headDirection}&headonly=${this.$props.headDirection}&img_format=${this.$props.imgFormat}&size=${this.$props.size}&dance=${this.$props.dance}&effect=${this.$props.effect}`;
+      const base_link = `http://127.0.0.1:8889/?figure=${this.$props.figure}&action=${this.$props.actions},${this.$props.expression},${this.$props.carry}&gesture=${this.$props.gesture}&direction=${this.$props.direction}&head_direction=${this.$props.headDirection}&headonly=${this.$props.headOnly}&img_format=${this.$props.imgFormat}&size=${this.$props.size}&dance=${this.$props.dance}&effect=${this.$props.effect}`;
       return base_link
     }
   },
