@@ -14,8 +14,6 @@ services:
       - $IMAGER_PORT:1338
     env_file:
       - .env
-    volumes: 
-      - ./docker/volumes/redis:/data
 
 networks:
   retro_network:
